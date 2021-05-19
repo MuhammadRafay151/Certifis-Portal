@@ -2,45 +2,57 @@ import axios from "axios";
 export default {
     namespaced: true,
     state: {
-        Contacts: [],
-        OrgContacts: []
+        Organizations: []
     },
     mutations: {
-        AddContact(state, value) {
-            state.Contacts.push(value);
+        SetOrgs(state, value) {
+            state.Organizations = value;
         },
-        SetContacts(state, value) {
-            state.Contacts = value;
+        AddOrg(state, value) {
+            state.Organizations.push(value);
         },
-        AddOrgContact(state, value) {
-            state.OrgContacts.push(value);
+        DeleteOrg(state, id) {
+            state.Organizations = state.Organizations.filter(x => x._id != id);
         },
 
     },
     actions: {
 
-        LoadContacts({ commit }) {
+        GetOrgs({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: "/contact/details",
+                    url: "/organization",
                     method: "GET"
-                }).then(response => {
-                    commit("SetContacts", response.data)
+                }).then(res => {
+                    commit("SetOrgs", res.data);
                     resolve()
                 }).catch(err => {
                     reject(err)
                 })
-
             })
         },
-        AddContact({ commit }, data) {
+        AddOrg({ commit }, data) {
+            console.log(data)
             return new Promise((resolve, reject) => {
                 axios({
-                    url: "/contact",
+                    url: "/organization",
                     method: "POST",
-                    data: data
-                }).then(response => {
-                    commit("AddContact", response.data)
+                    data: data,
+                }).then(res => {
+                    commit("AddOrg", res.data);
+                    resolve()
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        DeleteOrg({ commit }, id) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: "/organization/" + id,
+                    method: "DELETE",
+                }).then(() => {
+                    commit("DeleteOrg", id)
                     resolve()
                 }).catch(err => {
                     reject(err)
@@ -48,33 +60,19 @@ export default {
 
             })
         },
-        AddOrgContact({ commit }, data) {
+        UpdateOrg(ctx, data) {
+            console.log(data)
             return new Promise((resolve, reject) => {
                 axios({
-                    url: "/orgcontact",
-                    method: "POST",
-                    data: data
-                }).then(response => {
-                    commit("AddOrgContact", response.data)
+                    url: "/organization/" + data._id,
+                    method: "PUT",
+                    data: data,
+                }).then(() => {
+
                     resolve()
                 }).catch(err => {
                     reject(err)
                 })
-
-            })
-        },
-        GetOrgContacts({ commit }) {
-            return new Promise((resolve, reject) => {
-                axios({
-                    url: "/orgcontact",
-                    method: "GET"
-                }).then(response => {
-                    commit("SetContacts", response.data)
-                    resolve()
-                }).catch(err => {
-                    reject(err)
-                })
-
             })
         },
 
