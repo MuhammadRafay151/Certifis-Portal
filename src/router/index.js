@@ -4,6 +4,8 @@ import Home from "../views/Home.vue";
 import Contact from "../views/contact/Contact.vue";
 import ContactDetails from "../views/contact/ContactDetails.vue";
 import organization from "../views/organization/Organizations.vue";
+import OrgContact from "../views/contact/OrgContact.vue";
+
 
 
 
@@ -38,6 +40,11 @@ const routes = [
     path: "/organization",
     name: "organization",
     component: organization,
+  },
+  {
+    path: "/OrgContact",
+    name: "OrgContact",
+    component: OrgContact,
   },
 ];
 

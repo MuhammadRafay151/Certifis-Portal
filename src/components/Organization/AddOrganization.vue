@@ -19,6 +19,16 @@
                 @input="$v.Organization.name.$touch()"
                 @blur="$v.Organization.name.$touch()"
               ></v-text-field>
+              <v-text-field
+                v-model="Organization.email"
+                :error-messages="emailErrors"
+                label="E-mail"
+                color="deep-purple"
+                outlined
+                required
+                @input="$v.Organization.email.$touch()"
+                @blur="$v.Organization.email.$touch()"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -40,7 +50,8 @@
   </v-dialog>
 </template>
 <script>
-import { required } from "vuelidate/lib/validators";
+
+import { required, email } from "vuelidate/lib/validators";
 import Loader from "../../Mixins/Loader";
 export default {
   name: "AddOrganization",
@@ -50,6 +61,7 @@ export default {
     return {
       Organization: {
         name: "",
+        email: "",
       },
       dialog: false,
     };
@@ -59,6 +71,13 @@ export default {
       const errors = [];
       if (!this.$v.Organization.name.$dirty) return errors;
       !this.$v.Organization.name.required && errors.push("Name is required.");
+      return errors;
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.Organization.email.$dirty) return errors;
+      !this.$v.Organization.email.email && errors.push("Must be valid e-mail");
+      !this.$v.Organization.email.required && errors.push("E-mail is required");
       return errors;
     },
   },
@@ -112,6 +131,7 @@ export default {
     Clear() {
       this.Organization = {
         name: "",
+        email: "",
         IsRequired: false,
       };
     },
@@ -120,6 +140,9 @@ export default {
     Organization: {
       name: {
         required,
+      },
+      email: {
+        required, email
       },
       IsRequired: {},
     },

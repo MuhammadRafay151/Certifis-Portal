@@ -78,6 +78,7 @@ export default {
       this.$refs.act.Show();
     },
     Edit(data) {
+      console.log(data)
       this.edit = true;
       this.$refs.act.Organization = Object.assign({}, data);
       this.$refs.act.Show();

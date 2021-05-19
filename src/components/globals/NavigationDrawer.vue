@@ -37,6 +37,19 @@
         </v-list-item-icon>
         <v-list-item-title>Contact Details</v-list-item-title>
       </v-list-item>
+      <v-list-item link to="/Organization" exact>
+        <v-list-item-icon>
+          <v-icon>mdi-format-list-bulleted-type</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Add Organization</v-list-item-title>
+      </v-list-item>
+      <v-list-item link to="/OrgContact" exact>
+        <v-list-item-icon>
+          <v-icon>mdi-format-list-bulleted-type</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Organization Contact</v-list-item-title>
+      </v-list-item>
+      
       
     </v-list>
   </v-navigation-drawer>
