@@ -14,8 +14,18 @@
       v-if="$vuetify.breakpoint.mobile"
       v-on:click="mini"
     ></v-app-bar-nav-icon>
-    <v-toolbar-title>E-Cert</v-toolbar-title>
-    <v-spacer></v-spacer>
+    <v-toolbar flat>
+    <v-toolbar-title >Certifis</v-toolbar-title>
+    </v-toolbar>
+
+  
+
+    <v-tabs  centered optional>
+      <v-tab link to="/Contact" exact> Contact</v-tab>
+      <v-tab link to="/ContactDetails" exact>Contact Details</v-tab>
+      <v-tab link to="/Organization" exact>Add Organization</v-tab>
+      <v-tab link to="/OrgContact" exact>Request Services</v-tab>
+    </v-tabs>
     <!-- <v-icon v-on:click="signout">mdi-location-exit</v-icon> -->
   </v-app-bar>
 </template>
@@ -32,7 +42,7 @@ export default {
     },
     signout() {
       this.$store.dispatch("SignOut");
-      alert("logout")
+      alert("logout");
     },
   },
 };

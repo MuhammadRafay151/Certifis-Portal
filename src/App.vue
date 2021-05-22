@@ -10,12 +10,12 @@
 
 <script>
 import Navbar from "./components/globals/Navbar.vue";
-import NavigationDrawer from "./components/globals/NavigationDrawer.vue";
+// import NavigationDrawer from "./components/globals/NavigationDrawer.vue";
 export default {
   name: "App",
 
   components: {
-    NavigationDrawer,
+    // NavigationDrawer,
     Navbar,
   },
   methods: {

@@ -43,7 +43,7 @@
               @input="$v.OrgContact.OrgID.$touch()"
               @blur="$v.OrgContact.OrgID.$touch()"
             ></v-text-field> -->
-            <!-- <v-text-field
+            <v-text-field
               v-model="OrgContact.email"
               :error-messages="emailErrors"
               label="E-mail"
@@ -52,16 +52,6 @@
               required
               @input="$v.OrgContact.email.$touch()"
               @blur="$v.OrgContact.email.$touch()"
-            ></v-text-field> -->
-            <v-text-field
-              v-model="OrgContact.subject"
-              :error-messages="subjectErrors"
-              label="Subject"
-              color="deep-purple"
-              outlined
-              required
-              @input="$v.OrgContact.subject.$touch()"
-              @blur="$v.OrgContact.subject.$touch()"
             ></v-text-field>
             <v-textarea
               v-model="OrgContact.description"
@@ -89,8 +79,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-// import { required, maxLength, email } from "vuelidate/lib/validators";
-import { required, maxLength } from "vuelidate/lib/validators";
+import { required, maxLength, email } from "vuelidate/lib/validators";
 import Loader from "../../Mixins/Loader";
 import { mapState } from "vuex";
 
@@ -101,9 +90,9 @@ export default {
     OrgContact: {
       name: { required, maxLength: maxLength(50) },
       description: { required },
-      subject: { required },
+    
       OrgID: { required },
-      // email: { required, email },
+      email: { required, email },
     },
   },
   data: () => {
@@ -111,8 +100,8 @@ export default {
       LoadingOrg: false,
       OrgContact: {
         name: "",
-        // email: "",
-        subject: "",
+        email: "",
+
         OrgID: "",
         description: "",
       },
@@ -143,20 +132,14 @@ export default {
         errors.push("Organization Name is required.");
       return errors;
     },
-    subjectErrors() {
+
+    emailErrors() {
       const errors = [];
-      if (!this.$v.OrgContact.subject.$dirty) return errors;
-      !this.$v.OrgContact.subject.required &&
-        errors.push("Subject is required.");
+      if (!this.$v.OrgContact.email.$dirty) return errors;
+      !this.$v.OrgContact.email.email && errors.push("Must be valid e-mail");
+      !this.$v.OrgContact.email.required && errors.push("E-mail is required");
       return errors;
     },
-    // emailErrors() {
-    //   const errors = [];
-    //   if (!this.$v.OrgContact.email.$dirty) return errors;
-    //   !this.$v.OrgContact.email.email && errors.push("Must be valid e-mail");
-    //   !this.$v.OrgContact.email.required && errors.push("E-mail is required");
-    //   return errors;
-    // },
   },
 
   methods: {
@@ -182,8 +165,8 @@ export default {
       this.$v.OrgContact.$reset();
       this.OrgContact = {
         name: "",
-        // email: "",
-        subject: "",
+        email: "",
+
         OrgID: "",
         description: "",
       };

@@ -23,11 +23,36 @@
                 v-model="Organization.email"
                 :error-messages="emailErrors"
                 label="E-mail"
-                color="deep-purple"
                 outlined
                 required
                 @input="$v.Organization.email.$touch()"
                 @blur="$v.Organization.email.$touch()"
+              ></v-text-field>
+              <vue-tel-input-vuetify
+                type="tel"
+                v-model="Organization.phone"
+                outlined
+                required
+                maxLen="10"
+                autocomplete="off"
+                clearable
+                v-bind:prefix="`+${Organization.country_code}`"
+                :error-messages="phoneErrors"
+                v-bind:defaultCountry="Organization.iso2"
+                disabledFetchingCountry
+                v-on:country-changed="countryChanged"
+                @input="$v.Organization.phone.$touch()"
+                @blur="$v.Organization.phone.$touch()"
+              ></vue-tel-input-vuetify>
+
+              <v-text-field
+                label="Address"
+                v-model="Organization.address"
+                :error-messages="addressErrors"
+                outlined
+                required
+                @input="$v.Organization.address.$touch()"
+                @blur="$v.Organization.address.$touch()"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -50,8 +75,7 @@
   </v-dialog>
 </template>
 <script>
-
-import { required, email } from "vuelidate/lib/validators";
+import { required, email, maxLength, numeric } from "vuelidate/lib/validators";
 import Loader from "../../Mixins/Loader";
 export default {
   name: "AddOrganization",
@@ -62,6 +86,10 @@ export default {
       Organization: {
         name: "",
         email: "",
+        phone: 0,
+        address: "",
+        country_code: "92",
+        iso2: "Pk",
       },
       dialog: false,
     };
@@ -70,7 +98,26 @@ export default {
     nameErrors() {
       const errors = [];
       if (!this.$v.Organization.name.$dirty) return errors;
-      !this.$v.Organization.name.required && errors.push("Name is required.");
+      !this.$v.Organization.name.required &&
+        errors.push("Organization Name is required.");
+      return errors;
+    },
+    phoneErrors() {
+      const errors = [];
+      if (!this.$v.Organization.phone.$dirty) return errors;
+      !this.$v.Organization.phone.numeric &&
+        errors.push("Phone Number must be numeric");
+      !this.$v.Organization.phone.maxLength &&
+        errors.push("Phone Number must be at most 10 digits long");
+      !this.$v.Organization.phone.required &&
+        errors.push("Phone Number is required.");
+      return errors;
+    },
+    addressErrors() {
+      const errors = [];
+      if (!this.$v.Organization.address.$dirty) return errors;
+      !this.$v.Organization.address.required &&
+        errors.push("Address is required.");
       return errors;
     },
     emailErrors() {
@@ -82,6 +129,11 @@ export default {
     },
   },
   methods: {
+    countryChanged(country) {
+      this.Organization.iso2 = country.iso2;
+      this.Organization.country_code = country.dialCode;
+      console.log(country);
+    },
     Show() {
       this.dialog = true;
     },
@@ -90,6 +142,7 @@ export default {
     },
     Close() {
       this.dialog = false;
+
       this.Clear();
       this.$v.$reset();
     },
@@ -132,6 +185,10 @@ export default {
       this.Organization = {
         name: "",
         email: "",
+        phone: 0,
+        address: "",
+        country_code: "92",
+        iso2: "Pk",
         IsRequired: false,
       };
     },
@@ -142,8 +199,18 @@ export default {
         required,
       },
       email: {
-        required, email
+        required,
+        email,
       },
+      phone: {
+        numeric,
+        required,
+        maxLength: maxLength(10),
+      },
+      address: {
+        required,
+      },
+
       IsRequired: {},
     },
   },

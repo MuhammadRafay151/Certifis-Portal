@@ -4,8 +4,12 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Vuelidate from 'vuelidate'
+import VueTelInputVuetify from 'vue-tel-input-vuetify/lib';
 import axios from "axios";
 
+Vue.use(VueTelInputVuetify, {
+  vuetify,
+});
 Vue.use(Vuelidate)
 
 Vue.config.productionTip = false;

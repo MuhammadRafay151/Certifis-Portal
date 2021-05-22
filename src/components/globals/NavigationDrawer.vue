@@ -47,7 +47,7 @@
         <v-list-item-icon>
           <v-icon>mdi-format-list-bulleted-type</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Organization Contact</v-list-item-title>
+        <v-list-item-title>Request Services</v-list-item-title>
       </v-list-item>
       
       
