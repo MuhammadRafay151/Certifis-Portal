@@ -75,6 +75,7 @@
   </v-dialog>
 </template>
 <script>
+
 import { required, email, maxLength, numeric } from "vuelidate/lib/validators";
 import Loader from "../../Mixins/Loader";
 export default {
@@ -167,6 +168,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.ShowLoader();
+        console.log(this.Organization);
         this.$store
           .dispatch("OrganizationState/UpdateOrg", this.Organization)
           .then(() => {

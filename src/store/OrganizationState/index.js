@@ -18,9 +18,12 @@ export default {
     },
     actions: {
 
-        GetOrgs({ commit }) {
+        GetOrgs({ rootState, commit }) {
             return new Promise((resolve, reject) => {
                 axios({
+                    headers: {
+                        'Authorization': `Bearer ${rootState.UserState.user.token}`,
+                    },
                     url: "/organization",
                     method: "GET"
                 }).then(res => {
@@ -31,10 +34,13 @@ export default {
                 })
             })
         },
-        AddOrg({ commit }, data) {
-            console.log(data)
+        AddOrg({ rootState, commit }, data) {
+
             return new Promise((resolve, reject) => {
                 axios({
+                    headers: {
+                        'Authorization': `Bearer ${rootState.UserState.user.token}`,
+                    },
                     url: "/organization",
                     method: "POST",
                     data: data,
@@ -46,9 +52,12 @@ export default {
                 })
             })
         },
-        DeleteOrg({ commit }, id) {
+        DeleteOrg({ rootState, commit }, id) {
             return new Promise((resolve, reject) => {
                 axios({
+                    headers: {
+                        'Authorization': `Bearer ${rootState.UserState.user.token}`,
+                    },
                     url: "/organization/" + id,
                     method: "DELETE",
                 }).then(() => {
@@ -64,6 +73,7 @@ export default {
             console.log(data)
             return new Promise((resolve, reject) => {
                 axios({
+                 
                     url: "/organization/" + data._id,
                     method: "PUT",
                     data: data,

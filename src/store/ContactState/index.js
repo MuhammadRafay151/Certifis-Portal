@@ -19,9 +19,12 @@ export default {
     },
     actions: {
 
-        LoadContacts({ commit }) {
+        LoadContacts({ commit, rootState }) {
             return new Promise((resolve, reject) => {
                 axios({
+                    headers: {
+                        'Authorization': `Bearer ${rootState.UserState.user.token}`,
+                    },
                     url: "/contact/details",
                     method: "GET"
                 }).then(response => {
@@ -63,9 +66,12 @@ export default {
 
             })
         },
-        GetOrgContacts({ commit }) {
+        GetOrgContacts({ commit,rootState }) {
             return new Promise((resolve, reject) => {
                 axios({
+                    headers: {
+                        'Authorization': `Bearer ${rootState.UserState.user.token}`,
+                    },
                     url: "/orgcontact",
                     method: "GET"
                 }).then(response => {
