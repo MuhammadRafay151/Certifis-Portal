@@ -14,7 +14,7 @@ Vue.use(Vuelidate)
 
 Vue.config.productionTip = false;
 
-axios.defaults.baseURL = "https://certifis-portal-back-end.herokuapp.com/"
+axios.defaults.baseURL = "https://certifis-portal-back-end.herokuapp.com/api/"
 
 
 new Vue({
