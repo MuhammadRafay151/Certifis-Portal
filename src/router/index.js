@@ -6,7 +6,9 @@ import ContactDetails from "../views/contact/ContactDetails.vue";
 import organization from "../views/organization/Organizations.vue";
 import OrgContact from "../views/contact/OrgContact.vue";
 import login from "../views/login.vue";
-
+import NProgress from 'nprogress'
+import store from "../store"
+import 'nprogress/nprogress.css';
 
 
 
@@ -37,11 +39,13 @@ const routes = [
     path: "/ContactDetails",
     name: "ContactDetails",
     component: ContactDetails,
+    meta: { requiresAuth: true }
   },
   {
     path: "/organization",
     name: "organization",
     component: organization,
+    meta: { requiresAuth: true }
   },
   {
     path: "/OrgContact",
@@ -60,5 +64,21 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+router.beforeEach((to, from, next) => {
+  if (to.name) {
+    NProgress.start()
+  }
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters["UserState/IsLoggedIn"]) {
+      return next({ path: '/login' })
+    }
+  }
 
+  next() // make sure to always call next()!
+})
+router.afterEach(() => {
+  NProgress.done()
+});
 export default router;
